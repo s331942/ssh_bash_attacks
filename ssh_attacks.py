@@ -291,11 +291,55 @@ tfidf_df = pd.DataFrame(tfid.toarray(), index=df["full_session"].index, columns 
 result_df = pd.concat([df, tfidf_df], axis=1)
 print(result_df)
 
+
+
+# Compute the correlation matrix
 df_class = result_df.copy()
+df_features = df_class.drop(columns=["session_id", "full_session", "first_timestamp", "Set_Fingerprint", "number_characters", "number_words", "bag_of_words", "tfid"])
+correlation_matrix = df_features.corr().abs()
+
+# Compute the heatmap of the correlation matrix
+plt.figure(figsize=(50,50))
+sns.heatmap(correlation_matrix, cmap='Blues', annot=True, vmin=.0, vmax=1, cbar_kws={'label':'Correlation'})
+plt.xlabel('Feature')
+plt.ylabel('Feature')
+plt.title('Correlation matrix')
+plt.show()
+
+
+# Extract features having a correlation (so with a covariance) > 0.98
+c = correlation_matrix[correlation_matrix > 0.98]
+s = c.unstack()
+so = s.sort_values(ascending=False).reset_index()
+
+# Get strongly correlatead features, removing pairs having correlation = 1 because of the diagonal, i.e., correlation between one feature and itself"
+so = so[(so[0].isnull()==False) & (so["level_0"] != so["level_1"])]
+to_be_deleted = []
+candidates = list(so["level_0"])
+
+# Get the unique set of features to be deleted
+# Notice that we discard one feature per time considering the case where a feature is strongly correlated with multiple features
+subset_so = so
+for candidate in candidates:
+    if (candidate in list(subset_so["level_0"])): 
+        to_be_deleted.append(candidate) # add the feature to the removed candidates"
+        subset_so = subset_so[(subset_so["level_0"] != candidate) & (subset_so["level_1"] != candidate)] # remove the rows that the removed feature is involved"
+print(len(to_be_deleted), 'features to be removed')
+to_be_deleted
+df_features.drop(columns=to_be_deleted)
+
+
+# Concatenating the features dataframe with the result dataframe 
+result_df_corr = pd.concat([result_df[["session_id", "full_session","first_timestamp","Set_Fingerprint","number_characters","number_words","bag_of_words","tfid"]], df_features], axis=1)
+result_df_corr
+
+
+
+df_class = result_df_corr.copy()
 print(df_class)
 
 
-features_names = tfidf_df.columns
+features_names = df_features.columns
 
 X_feature = df_class.filter(features_names)
 y_feature =  df_class["Set_Fingerprint"]
