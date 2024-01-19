@@ -1,4 +1,5 @@
 \section{Language Models exploration} \label{Language Models exploration}
+\hrulefill  % Adds a horizontal line
 
 The journey commences with a meticulous exploration of the dataset, loaded using Pandas from a parquet file. This raw dataset offers a comprehensive view of session data, a precursor to the critical task of intent classification. A clean slate is created with a copy of the original dataset.
 
@@ -6,7 +7,7 @@ The journey commences with a meticulous exploration of the dataset, loaded using
 import pandas as pd
 
 # Load the data
-df_original = pd.read_parquet('ssh_attacks.parquet')
+df_original =  pd.read_parquet('ssh_attacks.parquet')
 data = df_original.copy()
 \end{lstlisting}
 
