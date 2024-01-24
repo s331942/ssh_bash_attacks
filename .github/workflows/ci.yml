@@ -1,0 +1,14 @@
+name: Jupyter Stripping CI
+
+on:
+  push:
+    branches: [ "main", "review" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - run: bash ${GITHUB_WORKSPACE}/jupyter_stripping.sh
