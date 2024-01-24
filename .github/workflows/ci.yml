@@ -11,4 +11,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - run: bash ${GITHUB_WORKSPACE}/jupyter_stripping.sh
+    - name: Run Script file
+    - run: |
+        chmod +x ${GITHUB_WORKSPACE}/jupyter_stripping.sh
+        ./${GITHUB_WORKSPACE}/jupyter_stripping.sh
