@@ -4,4 +4,4 @@ jq --indent 1 \
     | (.cells[] | select(has("execution_count")) | .execution_count) = null
     | .metadata = {"language_info": {"name":"python", "pygments_lexer": "ipython3"}}
     | .cells[].metadata = {}
-    ' ssh_attacks.ipynb > ssh_attacks_stripped.ipynb && mv ssh_attacks_stripped.ipynb ssh_attacks.ipynb
+    ' section1_DataExploration_and_preprocessing.ipynb > section1_DataExploration_and_preprocessing_stripped.ipynb && mv section1_DataExploration_and_preprocessing_stripped.ipynb section1_DataExploration_and_preprocessing.ipynb
