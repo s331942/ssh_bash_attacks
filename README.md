@@ -1,6 +1,6 @@
 
 # SSH Attack Detection Using Machine Learning - Project README
-![Project Logo](./images/SSH_attack_Fb.png)
+![Project Logo](./images/brute-force.jpeg)
 ## Overview
 
 This project investigates the use of machine learning algorithms to detect and classify SSH shell attacks. It is inspired by the growing importance of network security, particularly in detecting malicious attempts on SSH servers. By leveraging both supervised and unsupervised learning models, this project aims to identify attack patterns and enhance the ability to predict future attacks with greater accuracy.
