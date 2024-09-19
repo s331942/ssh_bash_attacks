@@ -17,8 +17,9 @@ The dataset used consists of over 233,000 rows, each representing a session with
 - Carmen Moncada (s296675)
 - Riccardo Tommasi (s323816)
 <div style="text-align: center;">
-<img src="./images/background.jpg" alt="Project Logo3" width="100"/>
+    <img src="./images/background.jpg" alt="Project Logo3" width="100"/>
 </div>
+
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Dataset and Pre-Processing](#dataset-and-pre-processing)
