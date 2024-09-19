@@ -55,6 +55,8 @@ Key observations:
 - The frequency of attacks varies over time, with notable peaks during certain periods, especially around the end of 2019 and early 2020. This indicates specific patterns of attack that may correspond to real-world scenarios where companies have reduced activity or fewer monitoring personnel.
 - Most attacks fall into categories such as "Discovery," "Persistence," and "Execution," with "Defense Evasion" and other intents being less frequent.
 
+![Project Logo](./images/Distribution_of_intents_over_time.jpg)
+
 ### Pre-Processing: Improving Data Quality
 
 The raw dataset consists of sessions with commands that are often encoded (e.g., base64 encoding). We applied decoding techniques to make these commands readable and actionable for the analysis. 
