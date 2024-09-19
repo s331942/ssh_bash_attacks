@@ -4,7 +4,7 @@
 
 - The PDF contains all the technical details, charts, and metrics that were part of this project. It is recommended to review the document for a deeper understanding of the results and the reasoning behind our machine learning models.
 
-![Project Logo](./images/brute-force.jpeg)
+![Project Logo4](./images/brute-force.jpeg)
 ## Overview
 
 This project investigates the use of machine learning algorithms to detect and classify SSH shell attacks. It is inspired by the growing importance of network security, particularly in detecting malicious attempts on SSH servers. By leveraging both supervised and unsupervised learning models, this project aims to identify attack patterns and enhance the ability to predict future attacks with greater accuracy.
@@ -16,7 +16,7 @@ The dataset used consists of over 233,000 rows, each representing a session with
 - Alessio Mantineo (s324267)
 - Carmen Moncada (s296675)
 - Riccardo Tommasi (s323816)
-
+<img src="./images/background.jpg" alt="Project Logo3" width="200"/>
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Dataset and Pre-Processing](#dataset-and-pre-processing)
