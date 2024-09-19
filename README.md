@@ -42,6 +42,7 @@ SSH is a critical protocol used to access servers remotely. Due to its importanc
 
 Machine learning techniques offer promising solutions to quickly analyze and detect abnormal patterns that might otherwise go unnoticed by human analysts. The dataset used for this project captures command sequences executed by attackers on a honeypot and provides a unique opportunity to apply machine learning to cybersecurity.
 
+![Project Logo2](./images/SSH_attack_Fb.png)
 ---
 
 ## Dataset and Pre-Processing
