@@ -1,5 +1,9 @@
 
-# SSH Attack Detection Using Machine Learning - Project README
+# SSH Attack Detection Using Machine Learning
+- This README provides a comprehensive overview of the SSH Attack Detection project using machine learning techniques. For a more detailed explanation of the project, including data analysis, methodologies, and in-depth results, please refer to the `SSH_ATTACKS_FINAL_VERSION.pdf` file located in the project directory.
+
+- The PDF contains all the technical details, charts, and metrics that were part of this project. It is recommended to review the document for a deeper understanding of the results and the reasoning behind our machine learning models.
+- 
 ![Project Logo](./images/brute-force.jpeg)
 ## Overview
 
