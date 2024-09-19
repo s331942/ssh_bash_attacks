@@ -16,7 +16,8 @@ The dataset used consists of over 233,000 rows, each representing a session with
 - Alessio Mantineo (s324267)
 - Carmen Moncada (s296675)
 - Riccardo Tommasi (s323816)
-<img src="./images/background.jpg" alt="Project Logo3" width="200"/>
+<img src="./images/background.jpg" alt="Project Logo3" width="100"/>
+
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Dataset and Pre-Processing](#dataset-and-pre-processing)
