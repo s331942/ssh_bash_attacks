@@ -1,0 +1,138 @@
+\section{Language Models exploration} \label{Language Models exploration}
+\hrulefill  % Adds a horizontal line
+
+The journey commences with a meticulous exploration of the dataset, loaded using Pandas from a parquet file. This raw dataset offers a comprehensive view of session data, a precursor to the critical task of intent classification. A clean slate is created with a copy of the original dataset.
+
+\begin{lstlisting}
+import pandas as pd
+
+# Load the data
+df_original =  pd.read_parquet('ssh_attacks.parquet')
+data = df_original.copy()
+\end{lstlisting}
+
+\subsection{Text Cleaning and Tokenization}
+The quality of the textual data plays a pivotal role in the efficacy of the model. A custom text cleaning function is introduced to filter out non-alphabetic characters and convert the text to lowercase. This prepares the data for tokenization.
+
+\begin{lstlisting}
+def clean_text(text):
+    # Filter out non-alphabetic characters and convert to lowercase
+    cleaned_text = ' '.join(word.lower() for word in text.split() if word.isalpha())
+    return cleaned_text
+
+# Apply text cleaning to the 'full_session' column
+data['cleaned_session'] = data['full_session'].apply(clean_text)
+\end{lstlisting}
+
+Tokenization marks a significant phase in the preprocessing pipeline, as we convert the cleaned sessions into tagged documents. This tagging scheme lays the foundation for the subsequent training of the Doc2Vec model.
+
+\begin{lstlisting}
+from gensim.models import Doc2Vec, TaggedDocument
+
+# Tokenize 'cleaned_session' texts and create tagged documents
+tagged_data = [TaggedDocument(words=session.split(), tags=[str(i)]) for i, session in enumerate(data['cleaned_session'])]
+\end{lstlisting}
+
+\subsection{Doc2Vec Model Training}
+The unsupervised learning prowess of the Doc2Vec model is harnessed in this section. With careful consideration of parameters such as vector size, window size, and epochs, the Doc2Vec model is meticulously trained on the tagged documents.
+
+\begin{lstlisting}
+# Initialize the Doc2Vec model
+doc2vec_model = Doc2Vec(vector_size=100, window=5, min_count=1, epochs=20, dm=1)
+
+# Build vocabulary
+doc2vec_model.build_vocab(tagged_data)
+
+# Train the model
+doc2vec_model.train(tagged_data, total_examples=doc2vec_model.corpus_count, epochs=doc2vec_model.epochs)
+
+# Save the trained model
+doc2vec_model.save('trained_doc2vec_model.model')
+\end{lstlisting}
+
+\subsection{Model Definition and Training}
+The architectural blueprint of our model takes shape as we integrate the pre-trained Doc2Vec embeddings into a TensorFlow-based classification model.
+
+\subsubsection{TensorFlow Model Definition}
+The TensorFlow model is instantiated as a Sequential model, featuring a dense layer to accommodate the Doc2Vec embeddings as the input layer. A final dense layer with softmax activation caters to the multiclass classification nature of the task.
+
+\begin{lstlisting}
+# Initialize a sequential model
+model = Sequential()
+
+# Add the Doc2Vec embeddings as the input layer
+input_dim = doc2vec_model.vector_size
+model.add(Dense(input_dim, input_shape=(input_dim,), activation='relu'))
+
+# Add the final dense layer for classification
+num_classes = 7
+model.add(Dense(num_classes, activation='softmax'))  # Softmax activation for multi-class classification
+
+# Compile the model
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+\end{lstlisting}
+
+\subsubsection{Token to TensorFlow Conversion}
+The tokenized and preprocessed data undergoes conversion into TensorFlow tensors. This crucial step involves extracting vectors and converting them into arrays, aligning with the input requirements of the TensorFlow model.
+
+\begin{lstlisting}
+% Function to infer vectors for each document
+def infer_vector(text):
+    return doc2vec_model.infer_vector(text.split())
+
+% Apply inference to each text and store the vectors in a new column
+data['doc2vec_vectors'] = data['cleaned_session'].apply(infer_vector)
+
+% Extract vectors and convert to array for modeling
+X = np.array(data['doc2vec_vectors'].tolist())
+y = data['Set_Fingerprint']
+
+% Split the data into training and test sets (70% train, 30% test)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+% Convert to TensorFlow Tensors
+X_train_tensor = tf.convert_to_tensor(X_train)
+X_test_tensor = tf.convert_to_tensor(X_test)
+y_train_tensor = tf.convert_to_tensor(mlb.fit_transform(y_train))
+y_test_tensor = tf.convert_to_tensor(mlb.transform(y_test))
+\end{lstlisting}
+
+\subsubsection{Model Training}
+The orchestration of model training unfolds as we clone the architecture and compile the model for iterative training. The epochs witness the evolution of the model's ability to discern intents from sessions.
+
+\begin{lstlisting}
+% Clone the model for training
+from tensorflow.keras.models import clone_model
+
+cloned_model = clone_model(model)
+cloned_model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+% Train the model
+history = cloned_model.fit(X_train_tensor, y_train_tensor, epochs=10, batch_size=32, validation_data=(X_test_tensor, y_test_tensor))
+\end{lstlisting}
+
+\subsection{Evaluation and Analysis}
+\subsection{Model Evaluation}
+A meticulous evaluation of the model's performance on the test set is conducted. Critical metrics such as test loss and accuracy provide a quantitative measure of its efficacy.
+
+\begin{lstlisting}
+% Evaluate the model on the test set
+test_loss, test_accuracy = cloned_model.evaluate(X_test_tensor, y_test_tensor)
+print(f'Test Loss: {test_loss}, Test Accuracy: {test_accuracy}')
+\end{lstlisting}
+
+\subsubsection{Analysis of Training Output}
+A detailed analysis of the training output unveils trends and nuances in the model's journey. Key metrics, including loss and accuracy, are dissected to gain insights into its behavior.
+
+\begin{lstlisting}
+% training output
+\end{lstlisting}
+
+\subsection{Recommendations and Conclusion}
+With the model's performance laid bare, strategic recommendations are proposed. These encompass avenues for optimizing model complexity, adjusting learning rates, and delving into additional metrics for a holistic assessment.
+
+\begin{lstlisting}[language=Python]
+% Recommendations and conclusion 
+\end{lstlisting}
+
+This narrative encapsulates the intricate dance between data, models, and insights, illustrating the pursuit of an effective and robust Session Intent Classification model. From the inception of raw data to the minutiae of model training, each step is a deliberate choice aimed at unraveling the underlying patterns in session intents.

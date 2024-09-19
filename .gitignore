@@ -1,0 +1,3 @@
+*.model
+*.npy
+jupyter_stripping.sh
